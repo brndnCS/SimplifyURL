@@ -15,9 +15,10 @@ Then: <br>
 1. Download the repository and open the folder 'SimplifyURL-main' with an IDE of your choice. <br>
 2. Create a virtual environment and activate it. From there, install the requirements in the requirements.txt file located in the shortURLProject directory with your shell; (pip install -r requirements.txt) <br>
 3. Enter the project directory (SimplifyURL-main>shortURLProject) and make the necessary migrations. Make the migrations via command line with the command 'py manage.py makemigrations'. Then migrate those aforementioned migrations with the command 'py manage.py migrate' (windows-based).<br>
-4. Run server locally with the command 'python manage.py runserver'. <br>
+4. Again, while you are in the project directory (SimplifyURL-main>shortURLProject), create a .env file and input: SECRET_KEY= with a key of your choice.
+5. Run the server locally with the command 'python manage.py runserver'. <br>
 Feel free to make any adjustments based off of your requirements. <hr>
 
 Currently working on: <br>
-~Minor quality of life improvements<br>
+~Minor quality of life improvements <br>
 ~Preparing for deployment <br>

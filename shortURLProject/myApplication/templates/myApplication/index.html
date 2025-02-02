@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>Simplify URL</title>
+
+</head>
+
+
+<body>
+    <section class="mainTitle">
+        <h1>Simplify URL</h1>
+    </section>
+
+
+    <section class="introduction" >
+        <h4>| Creates a shorter link that redirects users to the destination of your choice |</h1> <br>
+    </section>
+
+    <section class="credits">
+        <h6>| BL Programming |</h6>
+    </section>
+
+    <section class="inputArea">
+        <form action="{% url 'simplify' %}" method="POST">
+            {% csrf_token %}
+            <input name="userInput" class="inputBar" type="url" placeholder="Enter your URL here.." required> <br>
+            <button type="reset" class="resetButton">Reset!</button>
+            <button type="submit" class="simplifyButton">Simplify!</button>
+        </form>
+    </section>
+
+    <!--From our database/model-->
+    {% if simplifiedURL %}
+    <section class="outputArea">
+        <br><br><br>
+        <p>Your Simplified URL: <a href="{{ simplifiedURL }}"> {{ simplifiedURL }}</a></p>
+    </section>
+    {% endif %}
+
+</body>
+</html>

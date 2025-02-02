@@ -1,0 +1,89 @@
+body
+{
+    font-family: 'Gill Sans', 'Gill Sans MT','Trebuchet MS', sans-serif;
+    background-color: beige;
+    height: 100vh;
+}
+
+.mainTitle h1
+{
+    font-size: 140px;
+    color: orange;
+    text-align: center;
+    margin: 0;
+}
+
+.introduction h4
+{
+    font-size: 20px;
+    color: black;
+    text-align: center;
+    margin: 0;
+}
+
+.credits h6
+{
+    font-size: 15px;
+    color: black;
+    text-align: center;
+    margin: 0;
+    padding: 15px;
+}
+
+.inputArea
+{
+    position: relative;
+    padding: 150px 0px 0px 0px;
+    left: 30%;
+    height: 10%;
+    
+}
+
+.inputBar
+{
+    background: white;
+    border: none;
+    border-radius: 15px 15px 15px 15px;
+    outline: none;
+    padding: 10px 0px 10px 10px;
+    font-size: 15px;
+    width: 40%;
+
+}
+
+button
+{
+    display: inline;
+    width: 20%;
+    height: 35px;
+    margin: 0 auto;
+    
+}
+
+.simplifyButton
+{
+    background: orange;
+    border: none;
+    color: black;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 250px 25px 250px 25px;
+}
+
+.resetButton
+{
+    background: orange;
+    border: none;
+    color: black;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 25px 250px 25px 250px;
+}
+
+.outputArea
+{
+    position: relative;
+    left: 30%;
+    height: 10%;
+    
+}

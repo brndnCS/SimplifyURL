@@ -19,5 +19,5 @@ Then: <br>
 Feel free to make any adjustments based off of your requirements. <hr>
 
 Currently working on: <br>
-~Minor quality of life improvements <br>
+~Minor quality of life improvements<br>
 ~Preparing for deployment <br>

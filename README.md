@@ -10,7 +10,7 @@ How it works (a simple summary): <br>
 When a user submits a unique URL, a random string is crafted, and a shortened URL is created through the appendation of that string onto the domain. Both the user inputted URL and the simplified URL are added into the database. When the simplified URL is visited, the visitor is able to be redirected to the original URL because of that aforementioned database. <br><hr>
 
 How to start (a guide):
-For starters, you could visit _______ to try it out and see what it does. <br> <br>
+For starters, you could visit the <a href="https://simplifyurl.pythonanywhere.com/">site</a> to try it out and see what it does. <br> <br>
 Then: <br>
 1. Download the repository and open the folder 'SimplifyURL-main' with an IDE of your choice. <br>
 2. Create a virtual environment and activate it. From there, install the requirements in the requirements.txt file located in the shortURLProject directory with your shell; (pip install -r requirements.txt) <br>

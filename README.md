@@ -1,13 +1,14 @@
-| Simplify URL | <br>
-(a URL shortener) <hr>
+| SimplifyURL | <br>
+(a URL shortening service) <hr>
 
- BL Program <hr>
+BL Program <hr>
+https://simplifyurl.pythonanywhere.com/ <hr>
 
-Details: <br>
-This is a web application that takes in user inputted URL's and returns a shorter, simplified version of it. This was created using the Django web framework and SQLite as the backend database. <br><hr>
+Project Details: <br>
+Full stack web application that requests a user to input a URL of their choice, and returns a shortened version of that same URL. This was created using Python, HTML + CSS, the Django web framework, a web hosting service (PythonAnywhere), and a SQLite database for URL storage. <br><hr>
 
 How it works (a simple summary): <br>
-When a user submits a unique URL, a random string is crafted, and a shortened URL is created through the appendation of that string onto the domain. Both the user inputted URL and the simplified URL are added into the database. When the simplified URL is visited, the visitor is able to be redirected to the original URL because of that aforementioned database. <br><hr>
+When a user submits a unique URL, a random string is crafted, and a shortened URL is created through the appendation of that random string onto the domain. Both the user inputted URL and the simplified URL are added into the database. When the simplified URL is visited, the visitor is redirected to the original URL linked within the aforementioned SQLite database. <br><hr>
 
 How to start (a guide):
 For starters, you could visit the <a href="https://simplifyurl.pythonanywhere.com/">site</a> to try it out and see what it does. <br> <br>
@@ -20,5 +21,8 @@ Then: <br>
 Feel free to make any adjustments based off of your requirements. <hr>
 
 Currently working on: <br>
+~<s>Preparing for deployment </s> <br>
 ~Minor quality of life improvements <br>
-~Preparing for deployment <br>
+~A copy to clipboard button <br>
+~UI improvements <br>
+~An option to use a custom link rather than a randomly generated one <br>

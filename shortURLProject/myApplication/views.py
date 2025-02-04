@@ -45,7 +45,8 @@ def simplify(request):
             return render(request, 'myApplication/index.html', {'simplifiedURL': simplifiedURL})
 
     else:
-        return redirect(showIndexHTML)
+        #app_name : url_name
+        return redirect('myApplication:indexHTML')
 
 def simplifyRedirect(request, simplifiedURL):
     #go through database and get our OG link

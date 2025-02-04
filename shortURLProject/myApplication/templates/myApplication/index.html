@@ -6,31 +6,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'style.css' %}">
-    <title>Simplify URL</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}">
+    <title>SimplifyURL</title>
 
 </head>
 
 
 <body>
     <section class="mainTitle">
-        <h1>Simplify URL</h1>
+        <h1>simplifyURL</h1>
+    </section>
+
+
+    <section class="logo">
+        <img src="{% static 'mediumLogo.png' %}">
     </section>
 
 
     <section class="introduction" >
-        <h4>| Creates a shorter link that redirects users to the destination of your choice |</h1> <br>
+        <h4>| Creates a simplified link that redirects users to the destination of your choice |</h1> <br>
     </section>
+
+
+    <section class="customURLOption">
+        <h4>| If you'd rather create a custom URL for your destination, click <a href="">here</a> |</h4>
+    </section>
+
 
     <section class="credits">
         <h6>| BL Programming |</h6>
     </section>
 
+
     <section class="inputArea">
-        <form action="{% url 'simplify' %}" method="POST">
+        <form action="{% url 'myApplication:simplify' %}" method="POST">
             {% csrf_token %}
             <input name="userInput" class="inputBar" type="url" placeholder="Enter your URL here.." required> <br>
-            <button type="reset" class="resetButton">Reset!</button>
-            <button type="submit" class="simplifyButton">Simplify!</button>
+            <button type="reset" class="resetButton">reset</button>
+            <button type="submit" class="simplifyButton">simplify</button>
         </form>
     </section>
 

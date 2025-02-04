@@ -26,4 +26,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('about/', views.aboutPage, name='test'),
     path('', include('myApplication.urls')),
+    
 ]

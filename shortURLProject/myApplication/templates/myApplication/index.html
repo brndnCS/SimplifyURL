@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}">
+    <script src="{% static 'customURL.js' %}"></script>
     <title>SimplifyURL</title>
 
 </head>
@@ -18,23 +19,18 @@
     </section>
 
 
+    <section class="credits" id="forJS">
+        <h6>| BL Programming |</h6>
+    </section>
+
+
     <section class="logo">
         <img src="{% static 'mediumLogo.png' %}">
     </section>
 
 
     <section class="introduction" >
-        <h4>| Creates a simplified link that redirects users to the destination of your choice |</h1> <br>
-    </section>
-
-
-    <section class="customURLOption">
-        <h4>| If you'd rather create a custom URL for your destination, click <a href="">here</a> |</h4>
-    </section>
-
-
-    <section class="credits">
-        <h6>| BL Programming |</h6>
+        <h4>| Creates a simplified URL that redirects users to the destination of your choice |</h1> <br>
     </section>
 
 
@@ -47,11 +43,48 @@
         </form>
     </section>
 
-    <!--From our database/model-->
+
     {% if simplifiedURL %}
     <section class="outputArea">
         <br><br><br>
-        <p>Your Simplified URL: <a href="{{ simplifiedURL }}"> {{ simplifiedURL }}</a></p>
+        <h4>Your Simplified URL: <a href="{{ simplifiedURL }}"> {{ simplifiedURL }}</a></h4>
+    </section>
+    {% endif %}
+
+
+    <section class="customURLInformation">
+        <h4>| If you'd rather create a custom URL for your destination, click below</a> |</h4>
+    </section>
+
+
+    <section class="customURLOptionButtonSection">
+        <button class="customURLOptionButton" onclick="customURLForm()">Custom URL ~ Defined by you</button>
+    </section>
+
+    <section class="customURLInputArea">
+        <div id="customURLFormContainer" style="display: none;">
+
+            <form action="{% url 'myApplication:custom' %}" method="POST">
+                {% csrf_token %}
+                <input name="destinationURL" class="destinationURLInputBar" type="url" placeholder="Destination URL here.." required> <br>
+                <input name="customURL" class="customURLInputBar" type="text" placeholder="Desired path string (e.g. xyz..)"> <br>
+                <button type="submit" class="customSimplifyButton">simplify</button>
+            </form>
+
+        </div>
+    </section>
+
+    {% if error %}
+    <section class="UnsuccessfulCustomURL">
+        <br><br><br>
+        <h4>Your desired path string is already in use; Try again with a different one.</h4>
+    </section>
+    {% endif %}
+
+
+    {% if customURL %}
+    <section class="SuccessfulCustomURL">
+        <h4>Your Custom URL: <a href="{{ customURL }}"> {{ customURL }}</a></h4>
     </section>
     {% endif %}
 

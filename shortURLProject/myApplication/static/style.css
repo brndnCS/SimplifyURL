@@ -8,6 +8,7 @@ html, body
     overflow-x: hidden;
 }
 
+
 .mainTitle h1
 {
     font-size: 140px;
@@ -16,29 +17,6 @@ html, body
     margin: 0;
 }
 
-.logo
-{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0px 0px 10px 0px;
-}
-
-.introduction h4
-{
-    font-size: 20px;
-    color: #404652;
-    text-align: center;
-    margin: 0;
-}
-
-.customURLOption
-{
-    font-size: 20px;
-    color: #404652;
-    text-align: center;
-    margin: 0;
-}
 
 .credits h6
 {
@@ -48,6 +26,25 @@ html, body
     margin: 0;
     padding: 10px 0px 10px 0px;
 }
+
+
+.logo
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px 0px 10px 0px;
+}
+
+
+.introduction h4
+{
+    font-size: 20px;
+    color: #404652;
+    text-align: center;
+    margin: 0;
+}
+
 
 .inputArea
 {
@@ -67,7 +64,7 @@ html, body
     font-size: 15px;
 }
 
-button
+.simplifyButton, .resetButton
 {
     display: inline;
     margin: 0 auto;
@@ -102,4 +99,75 @@ button
     justify-content: center;
     align-items: center;
     margin: 0;
+}
+
+
+.customURLInformation
+{
+    font-size: 20px;
+    color: #404652;
+    text-align: center;
+    margin: 0;
+}
+
+.customURLOptionButtonSection
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.customURLOptionButton
+{
+    padding: 10px 10px 10px 10px;
+    background-color: #E1685D;
+    border: none;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 250px 250px 250px 250px;
+}
+
+
+.customURLInputArea
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0px 0px 0px;
+}
+
+.destinationURLInputBar, .customURLInputBar
+{
+    background: white;
+    border: none;
+    border-radius: 15px 15px 15px 15px;
+    outline: none;
+    padding: 10px 50px 10px 50px;
+    font-size: 15px;
+}
+
+.customSimplifyButton
+{
+    background: #E1685D;
+    border: none;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 250px 250px 250px 250px;
+    width: 100%
+}
+
+.UnsuccessfulCustomURL
+{
+    font-size: 20px;
+    color: #404652;
+    text-align: center;
+}
+
+.SuccessfulCustomURL
+{
+    font-size: 20px;
+    color: #404652;
+    text-align: center;
 }

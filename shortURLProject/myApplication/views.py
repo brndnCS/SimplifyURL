@@ -26,9 +26,9 @@ def getRandom(length=5) -> str:
     return temp
 
 
-#Cleans our URL
+#Cleans our URL. This reduces the entries in our database and limits each address to a maximum of 2 links (either with or without 'www').
+#Originally, it added 'www' as the subdomain no matter what, but sites often have various subdomains
 def cleanInput(string) -> str:
-    forbiddenCharacters = ['']
     parsedURL = urlparse(string)
 
     if not parsedURL.scheme:
@@ -36,14 +36,7 @@ def cleanInput(string) -> str:
     
     if string[-1] == '/':
         string = string[:-1]
-    #According to documentation @docs.python.org, urlparse()
-    #can only get the netloc if we have '//' before it
-    parsedURL = urlparse(string)
-    
-    if parsedURL.netloc[0:4] != 'www.':
-        newString = 'https://' + 'www.' + str(parsedURL.netloc)
-        return newString
-        
+
     return string
 
 

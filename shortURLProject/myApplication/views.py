@@ -1,37 +1,72 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
+from urllib.parse import urlparse
 from .models import myURL
 import random
 import string
+import re
 
 
-#home page view
+#Home page view
 def showIndexHTML(request):
     return render(request, 'myApplication/index.html')
 
 
 #Generates a random string to use for our shortened URL
-def getRandom(length=5):
+def getRandom(length=5) -> str:
+    blockedWords = ['admin', 'simplify', 'custom', 'login']
     availableCharacters = string.ascii_letters + string.digits
 
     temp = ''.join(random.choices(availableCharacters, k=length))
 
-    while myURL.objects.filter(simplifiedURL = temp).exists():
+    while myURL.objects.filter(simplifiedURL = temp).exists() and temp in blockedWords:
         temp = ''.join(random.choices(availableCharacters, k=length))
         
     return temp
 
 
-#user inputs a valid url and clicks the 'simplify' button
+#Cleans our URL
+def cleanInput(string) -> str:
+    forbiddenCharacters = ['']
+    parsedURL = urlparse(string)
+
+    if not parsedURL.scheme:
+        string = 'https://' + string
+    
+    if string[-1] == '/':
+        string = string[:-1]
+    #According to documentation @docs.python.org, urlparse()
+    #can only get the netloc if we have '//' before it
+    parsedURL = urlparse(string)
+    
+    if parsedURL.netloc[0:4] != 'www.':
+        newString = 'https://' + 'www.' + str(parsedURL.netloc)
+        return newString
+        
+    return string
+
+
+#Checks if a custom URL string is valid
+def isValidString(string: str) -> bool:
+    blockedWords = ['admin', 'simplify', 'custom', 'login']
+
+    #Decided not to go with a profanity filter because of the infamous Scunthorpe problem
+    if string in blockedWords:
+        return False
+    
+    else:
+        #only alphanumerics, underscores, and hyphens
+        return bool(re.fullmatch(r'^[a-zA-Z0-9_-]+$', string))
+
+
+#Backend logic for url shortening
 def simplify(request):
     if request.method == 'POST':
-        #refer to index.html for name of the search-bar
-        userInput = request.POST.get('userInput')
+        userInput = cleanInput(request.POST.get('userInput'))
         
-        #print(userInput)
         #Has this URL entered our database before?
-        checkDatabaseURL = myURL.objects.filter(inputURL=userInput).first()
+        checkDatabaseURL = myURL.objects.filter(inputURL=userInput, isCustom=False).first()
 
         #Yes
         if checkDatabaseURL is not None:
@@ -45,7 +80,7 @@ def simplify(request):
             simplifiedURL = request.build_absolute_uri('/') + tempString
 
             #add user's URL to the database; along with the simplified version
-            myURL.objects.create(inputURL = userInput, simplifiedURL = tempString)
+            myURL.objects.create(inputURL = userInput, simplifiedURL = tempString, isCustom = False)
             return render(request, 'myApplication/index.html', {'simplifiedURL': simplifiedURL})
 
     else:
@@ -54,21 +89,17 @@ def simplify(request):
         return redirect('myApplication:indexHTML')
 
 
-def simplifyRedirect(request, simplifiedURL):
-    #go through database and get our OG link
-    inputURL = myURL.objects.get(simplifiedURL = simplifiedURL).inputURL
-    
-    #gets us back to the original destination a user has inputted
-    return redirect(inputURL)
-
-
-def showCustomURLIndexHTML(request):
+#Backend logic for a custom alias for a URL
+def customURL(request):
     if request.method == 'POST':
         #get the customURL that the user has inputted
-        destinationURL = request.POST.get('destinationURL')
+        destinationURL = cleanInput(request.POST.get('destinationURL'))
         customUserInput = request.POST.get('customURL')
         
-        #check DB if a user has inputted a custom URL that already exists
+        if isValidString(customUserInput) == False:
+            return render(request, 'myApplication/index.html', {'invalidString' : customUserInput})
+
+        #check DB if a user has inputted a simplified URL that already exists
         checkDatabase = myURL.objects.filter(simplifiedURL=customUserInput).first()
 
         #conflict within the DB
@@ -77,13 +108,21 @@ def showCustomURLIndexHTML(request):
             customURL = request.build_absolute_uri('/') + customUserInput
             return render(request, 'myApplication/index.html', {'error' : customURL})
         
-        #no conflict
+        #no conflict, add to database
         else:
             customURL = request.build_absolute_uri('/') + customUserInput
-            myURL.objects.create(inputURL = destinationURL, simplifiedURL = customUserInput)
+            myURL.objects.create(inputURL = destinationURL, simplifiedURL = customUserInput, isCustom = True)
             return render(request, 'myApplication/index.html', {'customURL' : customURL})
-            
 
     #send back to home page if it's not a post req
     else:
         return redirect('myApplication:indexHTML')
+
+
+#Redirection
+def simplifyRedirect(request, simplifiedURL):
+    #go through database and get our OG link
+    inputURL = myURL.objects.get(simplifiedURL = simplifiedURL).inputURL
+    
+    #gets us back to the original destination a user has inputted
+    return redirect(inputURL)

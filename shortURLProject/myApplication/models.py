@@ -4,3 +4,5 @@ from django.db import models
 class myURL(models.Model):
     inputURL = models.URLField()
     simplifiedURL = models.CharField(max_length=50)
+    isCustom = models.BooleanField(default=False)
+    

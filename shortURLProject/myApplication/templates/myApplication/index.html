@@ -37,7 +37,7 @@
     <section class="inputArea">
         <form action="{% url 'myApplication:simplify' %}" method="POST">
             {% csrf_token %}
-            <input name="userInput" class="inputBar" type="url" placeholder="Enter your URL here.." required> <br>
+            <input name="userInput" class="inputBar" type="text" placeholder="Enter your URL here.." required> <br>
             <button type="reset" class="resetButton">reset</button>
             <button type="submit" class="simplifyButton">simplify</button>
         </form>
@@ -66,27 +66,33 @@
 
             <form action="{% url 'myApplication:custom' %}" method="POST">
                 {% csrf_token %}
-                <input name="destinationURL" class="destinationURLInputBar" type="url" placeholder="Destination URL here.." required> <br>
-                <input name="customURL" class="customURLInputBar" type="text" placeholder="Desired path string (e.g. xyz..)"> <br>
+                <input name="destinationURL" class="destinationURLInputBar" type="text" placeholder="Destination URL:" required> <br>
+                <input name="customURL" class="customURLInputBar" type="text" placeholder="Custom String:"> <br>
                 <button type="submit" class="customSimplifyButton">simplify</button>
             </form>
 
         </div>
     </section>
 
-    {% if error %}
     <section class="UnsuccessfulCustomURL">
-        <br><br><br>
-        <h4>Your desired path string is already in use; Try again with a different one.</h4>
+        {% if invalidString %}
+            <h4>*Your desired path string is invalid; Use an alphanumeric string, underscores (_), and/or hyphens (-)*.
+                <br>
+                *Note, your string may not be the following: 'admin', 'simplify', 'custom', or 'login'.*
+            </h4>
+        {% endif %}
     </section>
-    {% endif %}
 
+    <section class="UnsuccessfulCustomURL">
+        {% if error %}
+            <h4>*Your desired path string is already in use; Try again with a different one.*</h4>
+        {% endif %}
+    </section>
 
-    {% if customURL %}
     <section class="SuccessfulCustomURL">
-        <h4>Your Custom URL: <a href="{{ customURL }}"> {{ customURL }}</a></h4>
+        {% if customURL %}
+            <h4>Your Custom URL: <a href="{{ customURL }}"> {{ customURL }}</a></h4>
+        {% endif %}
     </section>
-    {% endif %}
-
 </body>
 </html>

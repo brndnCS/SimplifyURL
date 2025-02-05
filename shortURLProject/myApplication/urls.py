@@ -6,7 +6,6 @@ app_name = 'myApplication'
 urlpatterns = [
     path('', views.showIndexHTML, name='indexHTML'),
     path('simplify/', views.simplify, name='simplify'),
-    path('custom/', views.showCustomURLIndexHTML, name='custom'),
+    path('custom/', views.customURL, name='custom'),
     path('<str:simplifiedURL>/', views.simplifyRedirect, name='redirectSimplifiedURL'),
-
 ]

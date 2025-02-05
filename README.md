@@ -21,8 +21,9 @@ Then: <br>
 Feel free to make any adjustments based off of your requirements. <hr>
 
 Currently working on: <br>
-~<s>Preparing for deployment </s> <br>
-~Minor quality of life improvements <br>
+~<s>Preparing for deployment </s><br>
+~<s>UI improvements </s><br>
+~<s>An option to use a custom link rather than a randomly generated one </s><br>
+~<s>Minor quality of life improvements </s><br>
 ~A copy to clipboard button <br>
-~UI improvements <br>
-~An option to use a custom link rather than a randomly generated one <br>
+

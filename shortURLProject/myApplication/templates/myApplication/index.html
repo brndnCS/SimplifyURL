@@ -47,7 +47,7 @@
     {% if simplifiedURL %}
     <section class="outputArea">
         <br><br><br>
-        <h4>Your Simplified URL: <a href="{{ simplifiedURL }}"> {{ simplifiedURL }}</a></h4>
+        <h4>Your Simplified URL: <a target="_blank" href="{{ simplifiedURL }}"> {{ simplifiedURL }}</a></h4>
     </section>
     {% endif %}
 
@@ -91,7 +91,7 @@
 
     <section class="SuccessfulCustomURL">
         {% if customURL %}
-            <h4>Your Custom URL: <a href="{{ customURL }}"> {{ customURL }}</a></h4>
+            <h4>Your Custom URL: <a target="_blank" href="{{ customURL }}"> {{ customURL }}</a></h4>
         {% endif %}
     </section>
 </body>

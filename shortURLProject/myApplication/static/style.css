@@ -65,25 +65,21 @@ html, body
     display: inline;
     margin: 0 auto;
     width: 49%;
-}
-
-.simplifyButton
-{
     background: #E1685D;
     border: none;
     color: white;
     font-size: 15px;
     cursor: pointer;
+    padding: 10px;
+}
+
+.simplifyButton
+{
     border-radius: 250px 25px 250px 25px;
 }
 
 .resetButton
 {
-    background: #E1685D;
-    border: none;
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
     border-radius: 25px 250px 25px 250px;
 }
 
@@ -106,7 +102,7 @@ html, body
 
 .customURLOptionButton
 {
-    padding: 10px 10px 10px 10px;
+    padding: 12px 40px 12px 40px;
     background-color: #E1685D;
     border: none;
     color: white;
@@ -120,7 +116,7 @@ html, body
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 40px 0px 0px 0px;
+    padding: 40px 0px 20px 0px;
 }
 
 .customSimplifyButton
@@ -132,6 +128,7 @@ html, body
     cursor: pointer;
     border-radius: 250px 250px 250px 250px;
     width: 100%;
+    padding: 10px 40px 10px 40px;
 }
 
 .UnsuccessfulCustomURL, .SuccessfulCustomURL

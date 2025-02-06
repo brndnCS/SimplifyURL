@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlunparse
 from .models import myURL
 import random
 import string
@@ -26,18 +26,26 @@ def getRandom(length=5) -> str:
     return temp
 
 
-#Cleans our URL. This reduces the entries in our database and limits each address to a maximum of 2 links (either with or without 'www').
-#Originally, it added 'www' as the subdomain no matter what, but sites often have various subdomains
+#Cleans our URL. This reduces the entries in our database and limits each address to a maximum of 1 link (unless the website has various subdomains).
 def cleanInput(string) -> str:
+    string = string.lower()
     parsedURL = urlparse(string)
 
     if not parsedURL.scheme:
         string = 'https://' + string
     
-    if string[-1] == '/':
-        string = string[:-1]
+    parsedURL = urlparse(string)
+    netloc = parsedURL.netloc
 
-    return string
+    if parsedURL.netloc[0:4] == 'www.':
+        netloc = netloc[4:]
+    
+    retString = parsedURL[0] + '://' + netloc + parsedURL.path + parsedURL.params + parsedURL.query + parsedURL.fragment
+    
+    if retString[-1] == '/':
+        retString = retString[:-1]
+
+    return retString
 
 
 #Checks if a custom URL string is valid
@@ -65,7 +73,7 @@ def simplify(request):
         if checkDatabaseURL is not None:
             #get the absolute url with django's method
             simplifiedURL = request.build_absolute_uri('/') + checkDatabaseURL.simplifiedURL
-            return render(request, 'myApplication/index.html', {'simplifiedURL': simplifiedURL})
+            return render(request, 'myApplication/index.html', {'originalURL' : userInput, 'simplifiedURL': simplifiedURL})
         
         #No
         else:
@@ -74,7 +82,7 @@ def simplify(request):
 
             #add user's URL to the database; along with the simplified version
             myURL.objects.create(inputURL = userInput, simplifiedURL = tempString, isCustom = False)
-            return render(request, 'myApplication/index.html', {'simplifiedURL': simplifiedURL})
+            return render(request, 'myApplication/index.html', {'originalURL' : userInput, 'simplifiedURL': simplifiedURL})
 
     else:
         #app_name : url_name
@@ -105,7 +113,7 @@ def customURL(request):
         else:
             customURL = request.build_absolute_uri('/') + customUserInput
             myURL.objects.create(inputURL = destinationURL, simplifiedURL = customUserInput, isCustom = True)
-            return render(request, 'myApplication/index.html', {'customURL' : customURL})
+            return render(request, 'myApplication/index.html', {'originalURL' : destinationURL, 'customURL' : customURL})
 
     #send back to home page if it's not a post req
     else:

@@ -40,6 +40,7 @@ def cleanInput(string) -> str:
     if parsedURL.netloc[0:4] == 'www.':
         netloc = netloc[4:]
     
+    #Rebuild URL
     retString = parsedURL[0] + '://' + netloc + parsedURL.path + parsedURL.params + parsedURL.query + parsedURL.fragment
     
     if retString[-1] == '/':
@@ -71,7 +72,6 @@ def simplify(request):
 
         #Yes
         if checkDatabaseURL is not None:
-            #get the absolute url with django's method
             simplifiedURL = request.build_absolute_uri('/') + checkDatabaseURL.simplifiedURL
             return render(request, 'myApplication/index.html', {'originalURL' : userInput, 'simplifiedURL': simplifiedURL})
         
@@ -80,50 +80,46 @@ def simplify(request):
             tempString = getRandom()
             simplifiedURL = request.build_absolute_uri('/') + tempString
 
-            #add user's URL to the database; along with the simplified version
+            #Add to database
             myURL.objects.create(inputURL = userInput, simplifiedURL = tempString, isCustom = False)
             return render(request, 'myApplication/index.html', {'originalURL' : userInput, 'simplifiedURL': simplifiedURL})
 
     else:
-        #app_name : url_name
-        #send back to home page if it's not a post req
+        #Reload back to index.html
         return redirect('myApplication:indexHTML')
 
 
-#Backend logic for a custom alias for a URL
+#Backend logic for a custom alias as a URL
 def customURL(request):
     if request.method == 'POST':
-        #get the customURL that the user has inputted
         destinationURL = cleanInput(request.POST.get('destinationURL'))
         customUserInput = request.POST.get('customURL')
         
         if isValidString(customUserInput) == False:
             return render(request, 'myApplication/index.html', {'invalidString' : customUserInput})
 
-        #check DB if a user has inputted a simplified URL that already exists
+        #Check for existence
         checkDatabase = myURL.objects.filter(simplifiedURL=customUserInput).first()
 
-        #conflict within the DB
+        #Conflict
         if checkDatabase is not None:
-
             customURL = request.build_absolute_uri('/') + customUserInput
             return render(request, 'myApplication/index.html', {'error' : customURL})
         
-        #no conflict, add to database
+        #No conflict
         else:
             customURL = request.build_absolute_uri('/') + customUserInput
             myURL.objects.create(inputURL = destinationURL, simplifiedURL = customUserInput, isCustom = True)
             return render(request, 'myApplication/index.html', {'originalURL' : destinationURL, 'customURL' : customURL})
 
-    #send back to home page if it's not a post req
+    #Restart
     else:
         return redirect('myApplication:indexHTML')
 
 
 #Redirection
 def simplifyRedirect(request, simplifiedURL):
-    #go through database and get our OG link
     inputURL = myURL.objects.get(simplifiedURL = simplifiedURL).inputURL
     
-    #gets us back to the original destination a user has inputted
+    #Gets back to the original destination
     return redirect(inputURL)

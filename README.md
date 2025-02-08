@@ -1,6 +1,5 @@
 | SimplifyURL | <br>
 (a URL shortening service) <hr>
-
 BL Program <hr>
 https://simplifyurl.pythonanywhere.com/ <hr>
 
@@ -25,5 +24,4 @@ Currently working on: <br>
 ~<s>UI improvements </s><br>
 ~<s>An option to use a custom link rather than a randomly generated one </s><br>
 ~<s>Minor quality of life improvements </s><br>
-~A copy to clipboard button <br>
-
+~<s>A copy to clipboard button </s><br>

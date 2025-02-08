@@ -92,14 +92,14 @@ html, body
     align-items: center;
 }
 
-.customURLOptionButtonSection
+.customURLOptionButtonSection, .copyButtonSection
 {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.customURLOptionButton
+.customURLOptionButton, .copyButton
 {
     padding: 12px 40px 12px 40px;
     background-color: #E1685D;
@@ -136,3 +136,4 @@ html, body
     color: #404652;
     text-align: center;
 }
+

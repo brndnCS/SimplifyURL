@@ -73,7 +73,7 @@ def simplify(request):
         #Yes
         if checkDatabaseURL is not None:
             simplifiedURL = request.build_absolute_uri('/') + checkDatabaseURL.simplifiedURL
-            return render(request, 'myApplication/index.html', {'originalURL' : userInput, 'simplifiedURL': simplifiedURL})
+            return render(request, 'myApplication/index.html', {'simplifiedURL': simplifiedURL})
         
         #No
         else:
@@ -82,7 +82,7 @@ def simplify(request):
 
             #Add to database
             myURL.objects.create(inputURL = userInput, simplifiedURL = tempString, isCustom = False)
-            return render(request, 'myApplication/index.html', {'originalURL' : userInput, 'simplifiedURL': simplifiedURL})
+            return render(request, 'myApplication/index.html', {'simplifiedURL': simplifiedURL})
 
     else:
         #Reload back to index.html
@@ -110,7 +110,7 @@ def customURL(request):
         else:
             customURL = request.build_absolute_uri('/') + customUserInput
             myURL.objects.create(inputURL = destinationURL, simplifiedURL = customUserInput, isCustom = True)
-            return render(request, 'myApplication/index.html', {'originalURL' : destinationURL, 'customURL' : customURL})
+            return render(request, 'myApplication/index.html', {'customURL' : customURL})
 
     #Restart
     else:

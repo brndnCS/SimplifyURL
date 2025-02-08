@@ -12,14 +12,13 @@
 
 </head>
 
-
 <body>
     <section class="mainTitle">
         <h1>simplifyURL</h1>
     </section>
 
 
-    <section class="credits" id="forJS">
+    <section class="credits">
         <h6>| BL Programming |</h6>
     </section>
 
@@ -37,7 +36,7 @@
     <section class="inputArea">
         <form action="{% url 'myApplication:simplify' %}" method="POST">
             {% csrf_token %}
-            <input name="userInput" class="inputBar" type="text" placeholder="Enter your URL here.." required> <br>
+            <input id="userInput" name="userInput" class="inputBar" type="text" placeholder="Enter your URL here.." required> <br>
             <button type="reset" class="resetButton">reset</button>
             <button type="submit" class="simplifyButton">simplify</button>
         </form>
@@ -45,13 +44,13 @@
 
 
     {% if simplifiedURL %}
-    <section class="outputArea">
-        <h4>Your Destination URL: <a target="_blank" href="{{ originalURL }}"> {{ originalURL }}</a></h4>
-    </section>
+        <section class="outputArea">
+            <h4>Your Simplified URL: <a id="idSimplifiedURL" target="_blank" href="{{ simplifiedURL }}"> {{ simplifiedURL }}</a></h4>
+        </section>
 
-    <section class="outputArea">
-        <h4>Your Simplified URL: <a target="_blank" href="{{ simplifiedURL }}"> {{ simplifiedURL }}</a></h4>
-    </section>
+        <section class="copyButtonSection">
+            <button class="copyButton" onclick="copyToClipboardRandom()">Copy to Clipboard</button>
+        </section>
     {% endif %}
 
 
@@ -63,6 +62,7 @@
     <section class="customURLOptionButtonSection">
         <button class="customURLOptionButton" onclick="customURLForm()">Custom URL ~ Defined by you</button>
     </section>
+
 
     <section class="customURLInputArea">
         <div id="customURLFormContainer" style="display: none;">
@@ -77,30 +77,31 @@
         </div>
     </section>
 
-    <section class="UnsuccessfulCustomURL">
-        {% if invalidString %}
-            <h4>*Your desired path string is invalid; Use an alphanumeric string, underscores (_), and/or hyphens (-)*.
-                <br>
-                *Note, your string may not be the following: 'admin', 'simplify', 'custom', or 'login'.*
-            </h4>
-        {% endif %}
-    </section>
-
-    <section class="UnsuccessfulCustomURL">
-        {% if error %}
-            <h4>*Your desired path string is already in use; Try again with a different one.*</h4>
-        {% endif %}
-    </section>
-
     
-        {% if customURL %}
-            <section class="SuccessfulCustomURL">
-                <h4>Your Destination URL: <a target="_blank" href="{{ originalURL }}"> {{ originalURL }}</a></h4>
-            </section>
-            <section class="SuccessfulCustomURL">
-                <h4>Your Custom URL: <a target="_blank" href="{{ customURL }}"> {{ customURL }}</a></h4>
-            </section>
-        {% endif %}
-    </section>
+    {% if invalidString %}
+        <section class="UnsuccessfulCustomURL">
+            <h4>*Your desired path string is invalid; Only use alphanumeric strings, underscores (_), and hyphens (-)*.<br>
+                *Note: your string may not be the following: 'admin', 'simplify', 'custom', or 'login'.*</h4>
+        </section>
+    {% endif %}
+    
+    
+    {% if error %}
+        <section class="UnsuccessfulCustomURL">
+            <h4>*Your desired path string is already in use; Try again with a different one.*</h4>
+        </section>
+    {% endif %}
+
+
+    {% if customURL %}
+        <section class="SuccessfulCustomURL">
+            <h4>Your Custom URL: <a id="idCustomURL" target="_blank" href="{{ customURL }}"> {{ customURL }}</a></h4>
+        </section>
+            
+        <section class="copyButtonSection">
+            <button class="copyButton" onclick="copyToClipboardCustom()">Copy to Clipboard</button>
+        </section>
+    {% endif %}
+
 </body>
 </html>

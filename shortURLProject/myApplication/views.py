@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.http import HttpResponse
-from urllib.parse import urlparse, urlunparse
+from urllib.parse import urlparse
 from .models import myURL
 import random
 import string
@@ -38,14 +37,35 @@ def isValidString(string: str) -> bool:
         #only alphanumerics, underscores, and hyphens
         return bool(re.fullmatch(r'^[a-zA-Z0-9_-]+$', string))
 
+#or tempParse.scheme != 'http':
+#Basic URL string parsing on top of input prereqs
+def parsing(string):
+    string = string.lower()
+
+    if string[-1] == '/':
+        string = string[:-1]
+    
+    tempParse = urlparse(string)
+    conditional = True
+    if tempParse.scheme != 'https' and tempParse.scheme != 'http':
+        conditional = False
+
+    if tempParse.netloc[0:4] == 'www.':
+        string = tempParse.scheme + '://' + string[len(tempParse.scheme)+7:]
+
+    return [string, conditional]
+
 
 #Backend logic for url shortening
 def simplify(request):
     if request.method == 'POST':
-        userInput = request.POST.get('userInput')
+        userInput = parsing(request.POST.get('userInput'))
+        
+        if userInput[1] == False:
+            return render(request, 'myApplication/index.html', {'schemeIssue': userInput[0]})
         
         #Has this URL entered our database before?
-        checkDatabaseURL = myURL.objects.filter(inputURL=userInput, isCustom=False).first()
+        checkDatabaseURL = myURL.objects.filter(inputURL=userInput[0], isCustom=False).first()
 
         #Yes
         if checkDatabaseURL is not None:
@@ -58,7 +78,7 @@ def simplify(request):
             simplifiedURL = request.build_absolute_uri('/') + tempString
 
             #Add to database
-            myURL.objects.create(inputURL = userInput, simplifiedURL = tempString, isCustom = False)
+            myURL.objects.create(inputURL = userInput[0], simplifiedURL = tempString, isCustom = False)
             return render(request, 'myApplication/index.html', {'simplifiedURL': simplifiedURL})
 
     else:
@@ -69,9 +89,12 @@ def simplify(request):
 #Backend logic for a custom alias as a URL
 def customURL(request):
     if request.method == 'POST':
-        destinationURL = request.POST.get('destinationURL')
+        destinationURL = parsing(request.POST.get('destinationURL'))
         customUserInput = request.POST.get('customURL')
         
+        if destinationURL[1] == False:
+            return render(request, 'myApplication/index.html', {'schemeIssue2': destinationURL[0]})
+
         if isValidString(customUserInput) == False:
             return render(request, 'myApplication/index.html', {'invalidString' : customUserInput})
 
@@ -80,13 +103,13 @@ def customURL(request):
 
         #Conflict
         if checkDatabase is not None:
-            customURL = request.build_absolute_uri('/') + customUserInput
+            customURL = 'filler'
             return render(request, 'myApplication/index.html', {'error' : customURL})
         
         #No conflict
         else:
             customURL = request.build_absolute_uri('/') + customUserInput
-            myURL.objects.create(inputURL = destinationURL, simplifiedURL = customUserInput, isCustom = True)
+            myURL.objects.create(inputURL = destinationURL[0], simplifiedURL = customUserInput, isCustom = True)
             return render(request, 'myApplication/index.html', {'customURL' : customURL})
 
     #Restart

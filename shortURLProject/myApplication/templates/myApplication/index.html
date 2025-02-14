@@ -43,6 +43,13 @@
     </section>
 
 
+    {% if schemeIssue %}
+        <section class="scheme">
+            <h4>| *Only use web protocols 'https' or 'http'* |</h4>
+        </section>
+    {% endif %}
+
+
     {% if simplifiedURL %}
         <section class="outputArea">
             <h4>Your Simplified URL: <a id="idSimplifiedURL" target="_blank" href="{{ simplifiedURL }}"> {{ simplifiedURL }}</a></h4>
@@ -77,18 +84,24 @@
         </div>
     </section>
 
+
+    {% if schemeIssue2 %}
+        <section class="scheme">
+            <h4>| *Only use web protocols 'https' or 'http'* |</h4>
+        </section>
+    {% endif %}
     
     {% if invalidString %}
         <section class="UnsuccessfulCustomURL">
-            <h4>*Your desired path string is invalid; Only use alphanumeric strings, underscores (_), and hyphens (-)*.<br>
-                *Note: your string may not be the following: 'admin', 'simplify', 'custom', or 'login'.*</h4>
+            <h4>| *Your desired path string is invalid; Only use alphanumeric strings, underscores (_), and hyphens (-)* |<br>
+                | *Note that your string may not be the following: 'admin', 'simplify', 'custom', or 'login'* |</h4>
         </section>
     {% endif %}
     
     
     {% if error %}
         <section class="UnsuccessfulCustomURL">
-            <h4>*Your desired path string is already in use; Try again with a different one.*</h4>
+            <h4>| *Your desired path string is already in use; Try again with a different one.* |</h4>
         </section>
     {% endif %}
 

@@ -83,7 +83,7 @@ html, body
     border-radius: 25px 250px 25px 250px;
 }
 
-.outputArea
+.outputArea, .scheme
 {
     font-size: 20px;
     color: #404652;

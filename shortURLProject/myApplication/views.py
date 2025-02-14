@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from urllib.parse import urlparse
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 from .models import myURL
 import random
 import string
@@ -12,7 +14,7 @@ def showIndexHTML(request):
     return render(request, 'myApplication/index.html')
 
 
-#Generates a random string to use for our shortened URL
+#Returns a random string to use for our shortened URL
 def getRandom(length=5) -> str:
     blockedWords = ['admin', 'simplify', 'custom', 'login']
     availableCharacters = string.ascii_letters + string.digits
@@ -26,6 +28,7 @@ def getRandom(length=5) -> str:
 
 
 #Checks if a custom URL string is valid
+#Returns true if it is; false if it's not
 def isValidString(string: str) -> bool:
     blockedWords = ['admin', 'simplify', 'custom', 'login']
 
@@ -37,8 +40,21 @@ def isValidString(string: str) -> bool:
         #only alphanumerics, underscores, and hyphens
         return bool(re.fullmatch(r'^[a-zA-Z0-9_-]+$', string))
 
-#or tempParse.scheme != 'http':
+
+#Returns true if our URL is valid; Returns false is it isn't.
+def validateURL(url):
+    validator = URLValidator()
+    try:
+        validator(url)
+        return True
+    
+    except ValidationError:
+        return False
+
+
 #Basic URL string parsing on top of input prereqs
+#Returns a tuple in the format: [url string, conditional boolean]
+#Conditional Boolean -> If it ever returns False, we can't proceed
 def parsing(string):
     string = string.lower()
 
@@ -46,8 +62,12 @@ def parsing(string):
         string = string[:-1]
     
     tempParse = urlparse(string)
+
     conditional = True
     if tempParse.scheme != 'https' and tempParse.scheme != 'http':
+        conditional = False
+
+    if validateURL(string) == False:
         conditional = False
 
     if tempParse.netloc[0:4] == 'www.':
@@ -57,6 +77,7 @@ def parsing(string):
 
 
 #Backend logic for url shortening
+#Returns a simplified url if all conditions are met
 def simplify(request):
     if request.method == 'POST':
         userInput = parsing(request.POST.get('userInput'))
@@ -87,6 +108,7 @@ def simplify(request):
 
 
 #Backend logic for a custom alias as a URL
+#Returns a custom url if all conditions are met
 def customURL(request):
     if request.method == 'POST':
         destinationURL = parsing(request.POST.get('destinationURL'))
@@ -117,7 +139,7 @@ def customURL(request):
         return redirect('myApplication:indexHTML')
 
 
-#Redirection
+#Redirection to the original url
 def simplifyRedirect(request, simplifiedURL):
     inputURL = myURL.objects.get(simplifiedURL = simplifiedURL).inputURL
     

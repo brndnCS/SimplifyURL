@@ -26,29 +26,6 @@ def getRandom(length=5) -> str:
     return temp
 
 
-#Cleans our URL. This reduces the entries in our database and limits each address to a maximum of 1 link (unless the website has various subdomains).
-def cleanInput(string) -> str:
-    string = string.lower()
-    parsedURL = urlparse(string)
-
-    if not parsedURL.scheme:
-        string = 'https://' + string
-    
-    parsedURL = urlparse(string)
-    netloc = parsedURL.netloc
-
-    if parsedURL.netloc[0:4] == 'www.':
-        netloc = netloc[4:]
-    
-    #Rebuild URL
-    retString = parsedURL[0] + '://' + netloc + parsedURL.path + parsedURL.params + parsedURL.query + parsedURL.fragment
-    
-    if retString[-1] == '/':
-        retString = retString[:-1]
-
-    return retString
-
-
 #Checks if a custom URL string is valid
 def isValidString(string: str) -> bool:
     blockedWords = ['admin', 'simplify', 'custom', 'login']
@@ -65,7 +42,7 @@ def isValidString(string: str) -> bool:
 #Backend logic for url shortening
 def simplify(request):
     if request.method == 'POST':
-        userInput = cleanInput(request.POST.get('userInput'))
+        userInput = request.POST.get('userInput')
         
         #Has this URL entered our database before?
         checkDatabaseURL = myURL.objects.filter(inputURL=userInput, isCustom=False).first()
@@ -92,7 +69,7 @@ def simplify(request):
 #Backend logic for a custom alias as a URL
 def customURL(request):
     if request.method == 'POST':
-        destinationURL = cleanInput(request.POST.get('destinationURL'))
+        destinationURL = request.POST.get('destinationURL')
         customUserInput = request.POST.get('customURL')
         
         if isValidString(customUserInput) == False:

@@ -36,7 +36,7 @@
     <section class="inputArea">
         <form action="{% url 'myApplication:simplify' %}" method="POST">
             {% csrf_token %}
-            <input id="userInput" name="userInput" class="inputBar" type="text" placeholder="Enter your URL here.." required> <br>
+            <input id="userInput" name="userInput" class="inputBar" type="url" placeholder="Enter your URL here.." required> <br>
             <button type="reset" class="resetButton">reset</button>
             <button type="submit" class="simplifyButton">simplify</button>
         </form>
@@ -69,7 +69,7 @@
 
             <form action="{% url 'myApplication:custom' %}" method="POST">
                 {% csrf_token %}
-                <input name="destinationURL" class="destinationURLInputBar" type="text" placeholder="Destination URL:" required> <br>
+                <input name="destinationURL" class="destinationURLInputBar" type="url" placeholder="Destination URL:" required> <br>
                 <input name="customURL" class="customURLInputBar" type="text" placeholder="Custom String:"> <br>
                 <button type="submit" class="customSimplifyButton">simplify</button>
             </form>

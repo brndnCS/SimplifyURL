@@ -6,6 +6,11 @@ https://simplifyurl.pythonanywhere.com/ <hr>
 Project Details: <br>
 Full stack web application that requests a user to input a URL of their choice, and returns a shortened version of that same URL. This was created using Python, HTML + CSS, the Django web framework, a web hosting service (PythonAnywhere), and a SQLite database for URL storage. <br><hr>
 
+Why I made it? <br>
+~I wanted to learn the architecture behind a full stack web application, from the backend all the way to the frontend <br>
+~I wanted to learn some new technologies to make myself employable. That simply happened to be the Django web framework, SQLite, HTML, CSS, and JavaScript <br>
+~I wanted to have a URL shortener that wasn't limited by payments or account creation requirements <hr>
+
 How it works (a simple summary): <br>
 When a user submits a unique URL, a random string is crafted, and a shortened URL is created through the appendation of that random string onto the domain. Both the user inputted URL and the simplified URL are added into the database. When the simplified URL is visited, the visitor is redirected to the original URL linked within the aforementioned SQLite database. <br><hr>
 
@@ -19,7 +24,7 @@ Then: <br>
 5. Run the server locally with the command 'python manage.py runserver'. <br>
 Feel free to make any adjustments based off of your requirements. <hr>
 
-Currently working on: <br>
+<s>Currently working on</s> (COMPLETED ALL PLANS): <br>
 ~<s>Preparing for deployment </s><br>
 ~<s>UI improvements </s><br>
 ~<s>An option to use a custom link rather than a randomly generated one </s><br>
